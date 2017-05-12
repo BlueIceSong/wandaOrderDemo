@@ -1,5 +1,9 @@
 package com.exa.wandaorderdemo.provider;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -37,6 +42,36 @@ public class SqlHelper {
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+
+    }
+
+    public void testConnection(Context context) throws java.sql.SQLException {
+
+        try {
+            con = DriverManager.getConnection(this.connStr, this.userName, this.userPwd);
+            String sql = "SELECT * FROM TestTable";//查询表名为“table_test”的所有内容
+            Statement stmt = con.createStatement();//创建Statement
+            ResultSet rs = stmt.executeQuery(sql);//ResultSet类似Cursor
+
+            while (rs.next()) {//<code>ResultSet</code>最初指向第一行
+                System.out.println(rs.getString("test_id"));//输出第n行，列名为“test_id”的值
+                System.out.println(rs.getString("test_name"));
+
+            }
+//            Toast.makeText(context,"testConnection=======>success",Toast.LENGTH_SHORT).show();
+            Log.v("testConnection=======>","success");
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage().toString());
+        } finally {
+            if (con != null)
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                }
         }
     }
 

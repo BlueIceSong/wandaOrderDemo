@@ -2,6 +2,7 @@ package com.exa.wandaorderdemo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,20 +35,20 @@ public class MainActivity extends Activity implements View.OnClickListener{
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            String jsonresult = msg.obj.toString();
+            String jsonResult = msg.obj.toString();
             Gson gson = new Gson();
             Type type = new TypeToken<List<Order>>(){
 
             }.getType();
-            List<Order> orders = gson.fromJson(jsonresult,type);
+            List<Order> orders = gson.fromJson(jsonResult,type);
             List mOrders = new ArrayList<>();
-            Map<String, String> title = new HashMap<String, String>();
+            Map<String, String> title = new HashMap<>();
             title.put("order_number","订单编码");
             title.put("customer_name","客户名称");
             mOrders.add(title);
 
             for (Order order : orders) {
-                HashMap<String, String> hmOrders = new HashMap<String, String>();
+                HashMap<String, String> hmOrders = new HashMap<>();
                 hmOrders.put("customer_name",order.customer_name);
                 hmOrders.put("order_number",order.order_number);
                 mOrders.add(hmOrders);
@@ -96,6 +97,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         if(v == bt){
            new Thread(net).start();
+        }
+        if (v.getId() == R.id.openlogin) {
+            Intent i = new Intent();
+            i.setClass(this,LoginActivity.class);
+            startActivity(i);
         }
     }
 

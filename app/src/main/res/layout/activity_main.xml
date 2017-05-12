@@ -11,5 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:text="测试"/>
+    <Button
+        android:id="@+id/openlogin"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
 
 </android.support.constraint.ConstraintLayout>

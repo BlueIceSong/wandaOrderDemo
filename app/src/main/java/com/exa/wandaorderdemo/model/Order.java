@@ -5,16 +5,18 @@ package com.exa.wandaorderdemo.model;
  */
 
 public class Order {
-    public int id;
-    public String customer_name;
-    public String order_num;
-    public String customer_num;
-    public String palet_number;
-    public double weight;
-    public double price;
-    public String date;
-    public String notes;
-    public String description;
+    public static String TABLE_NAME = "order";
+    public static String DB_NAME = "test_order.db";
+    public static int id;
+    public static String customer_name;
+    public static String order_num;
+    public static String customer_num;
+    public static String palet_number;
+    public static double weight;
+    public static double price;
+    public static String date;
+    public static String notes;
+    public static String description;
 
     public void setId(int id) {
         this.id = id;

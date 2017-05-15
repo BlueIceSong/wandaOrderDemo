@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.exa.wandaorderdemo.MainActivity">
+    tools:context="com.exa.wandaorderdemo.activity.MainActivity">
 
     <Button
         android:id="@+id/bt_test"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="测试"/>
+        android:text="测试数据库连接"/>
+
     <Button
         android:id="@+id/openlogin"
         android:layout_width="match_parent"
-        android:layout_height="70dp" />
+        android:layout_height="70dp"
+        android:layout_below="@+id/bt_test"
+        android:layout_marginTop="61dp"
+        android:text="login" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/openBaidu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/openlogin"
+        android:text="测试网络"/>
+
+
+</RelativeLayout>

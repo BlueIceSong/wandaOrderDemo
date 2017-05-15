@@ -2,4 +2,13 @@
     <string name="app_name">wandaOrderDemo</string>
     <string name="item_name">item_name</string>
     <string name="item_value">item_value</string>
+    <string name="customer_name">客户名称：</string>
+    <string name="customer_num">客户编号：</string>
+    <string name="order_num">物料编号：</string>
+    <string name="palet_number">车牌号码：</string>
+    <string name="weight">提货重量：</string>
+    <string name="price">单价：</string>
+    <string name="date">日期：</string>
+    <string name="notes">备注：</string>
+    <string name="description">描述：</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.exa.wandaorderdemo;
+package com.exa.wandaorderdemo.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.exa.wandaorderdemo.R;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -49,6 +51,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        login();
     }
 
     public void initView() {
@@ -74,7 +77,7 @@ public class LoginActivity extends Activity {
             public void run() {
                 try {
                     HttpClient httpclient=new DefaultHttpClient();
-                    HttpPost httpPost=new HttpPost("http://192.168.191.1:8080/HttpClientDemo/Login");//服务器地址，指向Servlet
+                    HttpPost httpPost=new HttpPost("http://192.168.0.33:8080/orderServerTest/Login");//服务器地址，指向Servlet
                     List<NameValuePair> params=new ArrayList<>();//将id和pw装入list
                     params.add(new BasicNameValuePair("ID",id));
                     params.add(new BasicNameValuePair("PW",pw));

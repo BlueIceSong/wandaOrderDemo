@@ -1,4 +1,4 @@
-package com.exa.wandaorderdemo;
+package com.exa.wandaorderdemo.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,52 +9,26 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.exa.wandaorderdemo.adapter.OrderAdapter;
-import com.exa.wandaorderdemo.model.Order;
+import com.exa.wandaorderdemo.R;
 import com.exa.wandaorderdemo.provider.SqlHelper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener{
     private SqlHelper sh = new SqlHelper("192.168.0.33","TestDB","sa","123");
     private Context context;
     private ListView lv;
     private Button bt;
+    private Button openLogin;
+    private Button openBaidu;
 
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
-            String jsonResult = msg.obj.toString();
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Order>>(){
-
-            }.getType();
-            List<Order> orders = gson.fromJson(jsonResult,type);
-            List mOrders = new ArrayList<>();
-            Map<String, String> title = new HashMap<>();
-            title.put("order_number","订单编码");
-            title.put("customer_name","客户名称");
-            mOrders.add(title);
-
-            for (Order order : orders) {
-                HashMap<String, String> hmOrders = new HashMap<>();
-                hmOrders.put("customer_name",order.customer_name);
-                hmOrders.put("order_number",order.order_number);
-                mOrders.add(hmOrders);
-            }
-            OrderAdapter oa = new OrderAdapter(getApplicationContext(),mOrders);
-            lv.setAdapter(oa);
         }
     };
 
@@ -64,7 +38,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         bt = (Button) findViewById(R.id.bt_test);
+        openLogin = (Button) findViewById(R.id.openlogin);
+        openBaidu = (Button) findViewById(R.id.openBaidu);
         bt.setOnClickListener(this);
+        openLogin.setOnClickListener(this);
+        openBaidu.setOnClickListener(this);
     }
 
     public void getMsg() {
@@ -95,13 +73,20 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(v == bt){
-           new Thread(net).start();
-        }
-        if (v.getId() == R.id.openlogin) {
-            Intent i = new Intent();
-            i.setClass(this,LoginActivity.class);
-            startActivity(i);
+        Intent i = new Intent();
+        switch (v.getId()){
+            case R.id.bt_test:
+                new Thread(net).start();
+                break;
+            case R.id.openlogin:
+                i.setClass(this,LoginActivity.class);
+                startActivity(i);
+                break;
+            case R.id.openBaidu:
+                i.setClass(this,OpenBaidu.class);
+                startActivity(i);
+                break;
+            default: break;
         }
     }
 

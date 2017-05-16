@@ -53,7 +53,7 @@ public class OrderAdapter extends BaseAdapter{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-       viewHolder.textView.setText(mOrderList.get(position).order_name);
+       viewHolder.textView.setText(mOrderList.get(position).getCustomer_name());
         return convertView;
     }
 

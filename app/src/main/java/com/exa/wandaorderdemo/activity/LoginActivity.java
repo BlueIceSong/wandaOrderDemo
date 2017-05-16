@@ -1,10 +1,15 @@
 package com.exa.wandaorderdemo.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +35,7 @@ import java.util.List;
  */
 
 public class LoginActivity extends Activity {
+    private static final int REQUEST_CODE = 1;
     private static final int USER_LOGIN = 2017;
     private static final int SHOW_RESPONSE=1;
     private EditText username;
@@ -52,8 +58,15 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         initView();
         login();
+        getPermission();
     }
-
+    private void getPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE);
+        }
+    }
     public void initView() {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -66,7 +79,9 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 String name = username.getText().toString().trim();
                 String pw = password.getText().toString().trim();
-                sendByHttpClient(name,pw);
+//                sendByHttpClient(name,pw);
+                Intent intent = new Intent(getApplicationContext(),OrderInfoActivity.class);
+                startActivity(intent);
             }
         });
     }

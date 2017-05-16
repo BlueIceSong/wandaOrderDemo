@@ -4,39 +4,37 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.exa.wandaorderdemo.model.Order;
+
 /**
- * Created by song on 2017/5/12.
+ * Created by Administrator on 2017/5/16.
  */
 
-public class DBHelper extends SQLiteOpenHelper{
-    public static final String DATA_NAME = "order_info.db";
+public class DBHelper extends SQLiteOpenHelper {
+    private static DBHelper mDBHelper;
+    public static final String DATA_BASE_NAME = "smart_app.db";
     public static final int VERSION_CODE = 1;
 
-    private static DBHelper dbHelper;
-
-    DBHelper(Context context) {
-        super(context,DATA_NAME,null,VERSION_CODE);
+    public DBHelper(Context context) {
+        super(context, DATA_BASE_NAME, null, VERSION_CODE);
     }
 
-    public synchronized static DBHelper getInstance(Context context) {
-        if (dbHelper == null){
-            dbHelper = new DBHelper(context);
+    public static DBHelper getInstance(Context context) {
+        if(mDBHelper == null) {
+            mDBHelper = new DBHelper(context);
         }
-        return dbHelper;
+        return mDBHelper;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("");
+        db.execSQL("CREATE TABLE order001 (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " customer_num CHAR, customer_name CHAR, order_num CHAR, palet_number CHAR，" +
+                " WEIGHT DOUBLE, price DOUBLE, date DATE, notes CHAR, description CHAR); ");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-
-    public void insert() {
-
-    }
-
 }

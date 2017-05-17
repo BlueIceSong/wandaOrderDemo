@@ -11,4 +11,5 @@
     <string name="date">日期：</string>
     <string name="notes">备注：</string>
     <string name="description">描述：</string>
+    <string name="logout">安全退出</string>
 </resources>

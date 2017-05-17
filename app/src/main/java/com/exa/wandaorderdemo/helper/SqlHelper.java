@@ -1,8 +1,7 @@
-package com.exa.wandaorderdemo.provider;
+package com.exa.wandaorderdemo.helper;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

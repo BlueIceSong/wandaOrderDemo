@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.exa.wandaorderdemo.R;
+import com.exa.wandaorderdemo.utils.ToastUtil;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,6 +28,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,17 +41,21 @@ import java.util.List;
 public class LoginActivity extends Activity {
     private static final int REQUEST_CODE = 1;
     private static final int USER_LOGIN = 2017;
-    private static final int SHOW_RESPONSE=1;
     private EditText username;
     private EditText password;
     private Button login;
 
-    Handler handler = new Handler(){
+    public Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == SHOW_RESPONSE){
+            if (msg.what == USER_LOGIN){
                 String response=(String)msg.obj;
-                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+                if(response.equals("true")) {
+                    startOrderActivity();
+                } else {
+                    ToastUtil.showToast(LoginActivity.this,"用户名或密码错误");
+                }
             }
         }
     };
@@ -77,13 +85,17 @@ public class LoginActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startOrderActivity();
                 String name = username.getText().toString().trim();
                 String pw = password.getText().toString().trim();
 //                sendByHttpClient(name,pw);
-                Intent intent = new Intent(getApplicationContext(),OrderInfoActivity.class);
-                startActivity(intent);
             }
         });
+    }
+
+    private void startOrderActivity() {
+        Intent intent = new Intent(getApplicationContext(),OrderInfoActivity.class);
+        startActivity(intent);
     }
 
     public void sendByHttpClient(final String id, final String pw){
@@ -110,6 +122,7 @@ public class LoginActivity extends Activity {
                     }
                 }
                 catch (Exception e) {
+                    ToastUtil.showToast(LoginActivity.this,"服务器连接异常");
                     e.printStackTrace();
                 }
             }

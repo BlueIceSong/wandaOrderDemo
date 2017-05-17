@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.exa.wandaorderdemo.activity.MainActivity">
 
-    <Button
-        android:id="@+id/bt_test"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="测试数据库连接"/>
+    <!--<Button-->
+        <!--android:id="@+id/bt_test"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:text="测试数据库连接"/>-->
 
     <Button
         android:id="@+id/openlogin"

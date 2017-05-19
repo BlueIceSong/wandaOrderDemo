@@ -1,10 +1,13 @@
 package com.exa.wandaorderdemo.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Song on 2017/5/12.
  */
 
-public class Order {
+public class Order implements Parcelable {
     public static final String TABLE_NAME = "order";
 
     public static final String ID = "id";
@@ -18,16 +21,16 @@ public class Order {
     public static final String NOTES = "notes";
     public static final String DESCRIPTION = "description";
 
-    private  int id;
-    private  String customer_num;
-    private  String customer_name;
-    private  String order_num;
-    private  String palet_number;
-    private  double weight;
-    private  double price;
-    private  String date;
-    private  String notes;
-    private  String description;
+    private int id;
+    private String customer_num;
+    private String customer_name;
+    private String order_num;
+    private String palet_number;
+    private double weight;
+    private double price;
+    private String date;
+    private String notes;
+    private String description;
 
     public void setId(int id) {
         this.id = id;
@@ -110,7 +113,44 @@ public class Order {
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.customer_num);
+        dest.writeString(this.customer_name);
+        dest.writeString(this.order_num);
+        dest.writeString(this.palet_number);
+        dest.writeDouble(this.weight);
+        dest.writeDouble(this.price);
+        dest.writeString(this.date);
+        dest.writeString(this.notes);
+        dest.writeString(this.description);
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel source) {
+            Order order = new Order();
+            order.id = source.readInt();
+            order.customer_num = source.readString();
+            order.customer_name = source.readString();
+            order.order_num = source.readString();
+            order.palet_number = source.readString();
+            order.weight = source.readDouble();
+            order.price = source.readDouble();
+            order.date = source.readString();
+            order.notes = source.readString();
+            order.description = source.readString();
+            return order;
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 }

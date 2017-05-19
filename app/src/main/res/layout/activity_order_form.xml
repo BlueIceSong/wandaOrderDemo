@@ -2,40 +2,56 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/order_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#cee1ec">
+
         <TextView
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="3dp"
-            android:padding="3dp"
             android:gravity="center"
+            android:padding="3dp"
             android:text="@string/logout"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </RelativeLayout>
 
-    <FrameLayout
+    <ScrollView
         android:id="@+id/order_info_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/order_title">
 
         <include layout="@layout/activity_order_info" />
-    </FrameLayout>
+    </ScrollView>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/order_foot"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/order_info_list"
+        android:layout_height="33dp"
         android:layout_alignParentBottom="true"
         android:background="#cee1ec">
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#5978cc"/>
+        <TextView
+            android:id="@+id/re_server"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#5978cc"
+            android:text="服务器"
+            android:textSize="23sp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

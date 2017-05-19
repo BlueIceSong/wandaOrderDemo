@@ -10,29 +10,22 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.exa.wandaorderdemo.R;
+import com.exa.wandaorderdemo.utils.OkHttpUtil;
 import com.exa.wandaorderdemo.utils.ToastUtil;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by Song on 2017/5/12.
@@ -49,8 +42,7 @@ public class LoginActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == USER_LOGIN){
-                String response=(String)msg.obj;
-//                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+                String response = (String) msg.obj;
                 if(response.equals("true")) {
                     startOrderActivity();
                 } else {
@@ -85,10 +77,29 @@ public class LoginActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startOrderActivity();
+//                startOrderActivity();   //测试 不用登录 直接进入
                 String name = username.getText().toString().trim();
                 String pw = password.getText().toString().trim();
-//                sendByHttpClient(name,pw);
+                String address = "http://192.168.0.33:8080/orderServerTest/testLogin";
+                Map<String,String> map = new HashMap<>();
+                map.put("ID",name);
+                map.put("PW",pw);
+                OkHttpUtil.post(address, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        ToastUtil.showToast(LoginActivity.this,"服务器连接异常");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String re = response.body().string();
+                        Log.v("response========>",re);
+                        Message message = new Message();
+                        message.what = USER_LOGIN;
+                        message.obj = re;
+                        handler.sendMessage(message);
+                    }
+                },map);
             }
         });
     }
@@ -96,37 +107,6 @@ public class LoginActivity extends Activity {
     private void startOrderActivity() {
         Intent intent = new Intent(getApplicationContext(),OrderInfoActivity.class);
         startActivity(intent);
-    }
-
-    public void sendByHttpClient(final String id, final String pw){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    HttpClient httpclient=new DefaultHttpClient();
-                    HttpPost httpPost=new HttpPost("http://192.168.0.33:8080/orderServerTest/Login");//服务器地址，指向Servlet
-                    List<NameValuePair> params=new ArrayList<>();//将id和pw装入list
-                    params.add(new BasicNameValuePair("ID",id));
-                    params.add(new BasicNameValuePair("PW",pw));
-                    final UrlEncodedFormEntity entity=new UrlEncodedFormEntity(params,"utf-8");//以UTF-8格式发送
-                    httpPost.setEntity(entity);
-                    HttpResponse httpResponse= httpclient.execute(httpPost);
-                    if(httpResponse.getStatusLine().getStatusCode()==200)//在200毫秒之内接收到返回值
-                    {
-                        HttpEntity entity1=httpResponse.getEntity();
-                        String response= EntityUtils.toString(entity1, "utf-8");//以UTF-8格式解析
-                        Message message=new Message();
-                        message.what=USER_LOGIN;
-                        message.obj=response;
-                        handler.sendMessage(message); //使用Message传递消息给线程
-                    }
-                }
-                catch (Exception e) {
-                    ToastUtil.showToast(LoginActivity.this,"服务器连接异常");
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
 }

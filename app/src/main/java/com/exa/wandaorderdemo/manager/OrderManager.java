@@ -119,4 +119,15 @@ public class OrderManager {
         }
         return list;
     }
+
+    public void insert(List<Order> list){
+        db = mHelper.getWritableDatabase();
+        db.beginTransaction();
+        String sql = "insert into \""+Order.TABLE_NAME+"\"(" + Order.ID +","
+                + Order.CUSTOMER_NUM + "," + Order.CUSTOMER_NAME + "," + Order.ORDER_NUM
+                + "," + Order.PALET_NUMBER + "," + Order.WEIGHT + "," + Order.PRICE  + ","
+                + Order.DATE + "," + Order.NOTES + "," + Order.DESCRIPTION +") values(" +
+                "?,?,?,?,?,?,?,?,?)";
+//        db.execSQL(sql,new );
+    }
 }
